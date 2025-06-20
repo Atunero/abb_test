@@ -2,6 +2,8 @@
 
 Welcome to my E-commerce App! This project is a dummy e-commerce application built using React, Tailwind CSS, Vite, TypeScript, and Redux Toolkit. It aims to showcase various features commonly found in e-commerce platforms, including a homepage, product listing page, cart functionality, and user-authenticated pages like account and wishlist.
 
+---
+
 ## Features
 
 - **Homepage:** Introduce users to your e-commerce platform with attractive banners, featured products, and navigation options.
@@ -10,43 +12,92 @@ Welcome to my E-commerce App! This project is a dummy e-commerce application bui
 - **User Authentication:** Enable users to create accounts, log in, and access personalized features like wishlists and account settings.
 - **Wishlist:** Allow users to save products they're interested in for future reference.
 
+---
+
 ## Technologies Used
 
-- **React:** A popular JavaScript library for building user interfaces.
-- **Tailwind CSS:** A utility-first CSS framework for building custom designs quickly.
-- **Vite:** A modern build tool that serves your code via native ES Module imports during development for faster performance.
-- **TypeScript:** A statically typed superset of JavaScript that enhances code quality and developer productivity.
-- **Redux Toolkit:** A simplified state management library for managing application state efficiently.
-- **Cypress:** A next-generation front-end testing tool designed for the modern web.
+| Tech | Purpose |
+| --- | --- |
+| **React** | Component-based UI library |
+| **Tailwind CSS** | Utility-first styling |
+| **Vite** | Lightning-fast dev server & build tool |
+| **TypeScript** | Static typing for safer code |
+| **Redux Toolkit** | Simplified global state management |
+| **Cypress** | End-to-end testing |
+
+---
 
 ## Getting Started
 
-1. Clone this repository to your local machine.
-2. Install dependencies using `npm install` or `yarn install`.
-3. Start the development server using `npm run dev` or `yarn dev`.
-4. Open your browser and navigate to `http://localhost:5173` to view the application.
+```bash
+# clone repository
+git clone https://github.com/your-user/shopify-simple.git
+cd shopify-simple
+
+# install dependencies
+yarn install     # or npm install
+
+# start dev server
+yarn dev         # or npm run dev
+# → http://localhost:5173
+```
+
+---
+
+## Running with Docker
+
+> No Node installation required—everything is baked into the image.
+
+```bash
+# one-liner
+docker compose up --build # → http://localhost:3000
+```
+
+*The `Dockerfile` multi-stage build compiles the production bundle with Yarn and serves it via **Nginx**.  
+`docker-compose.yml` maps container port 80 to host port 3000 for convenience.*
+
+---
+
+## CI / CD
+
+A GitHub Actions workflow (`.github/workflows/ci.yml`) automatically:
+
+1. Installs dependencies (`yarn install`)
+2. Builds the production assets (`yarn build`)
+3. Builds the Docker image
+4. **Smoke-tests** the container – starts it, waits 5 s, and `curl`s `/` expecting **HTTP 200**
+
+This lightweight test guarantees the image boots and serves the SPA without adding any extra test code or dependencies to the repo.
+
+---
 
 ## Contributing
 
-Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
-
 1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature-name`).
-3. Make your changes and commit them (`git commit -am 'Add new feature'`).
-4. Push to the branch (`git push origin feature/your-feature-name`).
-5. Open a pull request.
+2. Create a feature branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -m "feat: awesome feature"`).
+4. Push to GitHub (`git push origin feature/your-feature`).
+5. Open a Pull Request.
+
+---
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+MIT — see [LICENSE](LICENSE) for full text.
+
+---
 
 ## Acknowledgements
 
-- Since this is a frontend only project, all the data have been collected from [DummyJSON](https://dummyjson.com/).
-- Special thanks to [Tailwind Labs](https://tailwindcss.com/) and [Redux Toolkit](https://redux-toolkit.js.org/) for their amazing tools and documentation.
+- Product data provided by [DummyJSON](https://dummyjson.com/)
+- Huge thanks to the teams behind Tailwind CSS, Redux Toolkit and all other OSS used here.
+
+---
 
 ## Contact
 
-For any inquiries or feedback, feel free to contact [me](mailto:alim1496@gmail.com).
+Questions or feedback? <alim1496@gmail.com>
 
-Happy coding! 🚀
+---
+
+*Happy coding & happy shipping! 🚀*
