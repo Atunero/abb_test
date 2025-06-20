@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: ["master"]
+  pull_request: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- Checkout code -----------------------------------------------------
+      - name: 🛎️  Checkout
+        uses: actions/checkout@v4
+
+      # --- Node & Yarn setup -------------------------------------------------
+      - name: ⚙️  Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+
+      # --- Install dependencies ---------------------------------------------
+      - name: 📦  Install dependencies
+        run: |
+          corepack enable
+          yarn install --frozen-lockfile --silent
+
+      # --- Production build --------------------------------------------------
+      - name: 🏗️  Build
+        run: yarn build
+
+      # --- Docker image build ------------------------------------------------
+      - name: 🐳  Docker build
+        run: docker build -t ${{ github.repository }}:${{ github.sha }} .
+
+      # --- Smoke test: does the container boot? -----------------------------
+      - name: 🚦  Smoke test container
+        run: |
+          docker run -d --name web -p 8080:80 ${{ github.repository }}:${{ github.sha }}
+          sleep 5                                  # wait for Nginx to start
+          curl -f http://localhost:8080            # -f = fail on HTTP >= 400
+
+      # --- Cleanup container (always) ---------------------------------------
+      - name: 🧹  Cleanup
+        if: always()
+        run: docker rm -f web || true
